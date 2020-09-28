@@ -19,12 +19,13 @@ function Create(): JSX.Element {
 
     useEffect(() => {
         if (user) {
+            console.log(`this is the user: `, user);
             setAuthor(user.name)
         }
     }, [user])
 
     const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-        e.preventDefault();
+        // e.preventDefault();
         setLoading(true);
         const formData = {
             title: values.title,
@@ -62,7 +63,7 @@ function Create(): JSX.Element {
         setValues({...values, ...formValues})
     }
     const handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
-        e.preventDefault();
+        // e.preventDefault();
         setFormValues({[e.currentTarget.name]: e.currentTarget.value})
     }
 

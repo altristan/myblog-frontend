@@ -21,13 +21,14 @@ function Profile(): JSX.Element {
     }, [user])
 
     const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-        e.preventDefault();
+        // e.preventDefault();
         setLoading(true);
         const formData = {
-            title: values.title,
-            description: values.description,
-            body: values.body,
-            author
+            username: values.username,
+            given_name: values.given_name,
+            family_name: values.family_name,
+            phone_number: values.phone_number,
+            email: values.email,
         }
         const submitSuccess: boolean = await submitform(formData);
         setSubmitSuccess(submitSuccess);
@@ -41,7 +42,7 @@ function Profile(): JSX.Element {
     const submitform = async (formData: {}) => {
         try {
             const accessToken = await getIdTokenClaims();
-            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/blog/post`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/profile/user`, {
                 method: "post",
                 headers: new Headers({
                     "Content-Type": "application/json",
@@ -59,7 +60,7 @@ function Profile(): JSX.Element {
         setValues({...values, ...formValues})
     }
     const handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
-        e.preventDefault();
+        // e.preventDefault();
         setFormValues({ [e.currentTarget.name]: e.currentTarget.value })
     }
 
@@ -69,7 +70,7 @@ function Profile(): JSX.Element {
                 <h2> Welcome! </h2>
                 {!submitSuccess && (
                     <div className="alert alert-info" role="alert">
-                        Please fill the form below to update your profile.
+                        Please finish setting up your profile below.
                     </div>
                 )}
                 {submitSuccess && (
@@ -80,28 +81,60 @@ function Profile(): JSX.Element {
                 <form id={"create-profile-form"} onSubmit={handleFormSubmission} noValidate={true}>
                     <div className="form-group col-md-12">
                         <label htmlFor="username"> Username </label>
-                        <input type="text" id="username" onChange={(e) => handleInputChanges(e)} name="title" className="form-control" placeholder="Enter username" />
+                        <input type="text"
+                               id="username"
+                               onChange={(e) => handleInputChanges(e)}
+                               name="username" className="form-control"
+                               placeholder="Enter username" />
                     </div>
                     <div className="form-group col-md-12">
-                        <label htmlFor="firstname"> First Name </label>
-                        <input type="text" id="firstname" onChange={(e) => handleInputChanges(e)} name="description" className="form-control" placeholder="Enter first name" />
+                        <label htmlFor="given_name"> First Name </label>
+                        <input type="text"
+                               id="given_name"
+                               onChange={(e) => handleInputChanges(e)}
+                               name="given_name"
+                               className="form-control"
+                               placeholder="Enter first name" />
                     </div>
                     <div className="form-group col-md-12">
-                        <label htmlFor="lastname"> Last Name </label>
-                        <input type="text" id="lastname" onChange={(e) => handleInputChanges(e)} name="body" className="form-control" placeholder="Enter last name" />
+                        <label htmlFor="family_name"> Last Name </label>
+                        <input type="text"
+                               id="family_name"
+                               onChange={(e) => handleInputChanges(e)}
+                               name="family_name"
+                               className="form-control"
+                               placeholder="Enter last name" />
+                    </div>
+                    <div className="form-group col-md-12">
+                        <label htmlFor="phone_number"> Contact No. </label>
+                        <input type="text"
+                               id="phone_number"
+                               onChange={(e) => handleInputChanges(e)}
+                               name="phone_number"
+                               className="form-control"
+                               placeholder="Enter contact number" />
                     </div>
                     <div className="form-group col-md-12">
                         <label htmlFor="email"> Email </label>
-                        <input type="text" id="email" defaultValue={author} onChange={(e) => handleInputChanges(e)} name="author" className="form-control" />
+                        <input type="text"
+                               id="email"
+                               defaultValue={author}
+                               onChange={(e) => handleInputChanges(e)}
+                               name="email"
+                               className="form-control"
+                               placeholder="Enter email" />
                     </div>
-                    {/*<div className="form-group col-md-4 pull-right">*/}
-                    {/*    <button className="btn btn-success" type="submit">*/}
-                    {/*        Create Post*/}
-                    {/*    </button>*/}
-                    {/*    {loading &&*/}
-                    {/*    <span className="fa fa-circle-o-notch fa-spin" />*/}
-                    {/*    }*/}
-                    {/*</div>*/}
+                    <div className="file-upload-wrapper">
+                        <input type="file" id="input-file-now" className="file-upload"/>
+                    </div>
+                    <div className="form-group col-md-4 pull-right">
+                        <button className="btn btn-success" type="submit">
+                            Create
+                        </button>
+                        {loading &&
+                        <span className="fa fa-circle-o-notch fa-spin" />
+                        }
+                    </div>
                 </form>
             </div>
         </div>
